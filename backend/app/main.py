@@ -5,9 +5,11 @@ from pydantic import BaseModel
 from app import seed
 from app.db import connect
 from app.engines.rota import build_week_slots, swap_legal, apply_swap
+from app.modules.print_package.api import router as print_package_router
 
 app = FastAPI(title="Chorerota", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.include_router(print_package_router)
 
 @app.on_event("startup")
 def _startup(): seed.init_db()
